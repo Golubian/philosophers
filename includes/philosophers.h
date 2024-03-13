@@ -8,5 +8,6 @@
 # include <stdio.h>
 
 # include "philosophers_struct.h"
+# include "philosophers_time.h"
 
 #endif

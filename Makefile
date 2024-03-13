@@ -18,6 +18,8 @@ CFLAGS = -Wall -Wextra -Werror $(INCLUDES)
 SRCS_DIR = srcs
 SRCS =\
 		$(SRCS_DIR)/main.c \
+		$(SRCS_DIR)/philosophers.c \
+		$(SRCS_DIR)/time_utils.c \
 
 INCLUDES = -I includes \
 

@@ -3,16 +3,16 @@
 
 int main(void)
 {
-	struct timeval	*tv = malloc(sizeof(struct timeval));
-	struct timeval	*new_tv = malloc(sizeof(struct timeval));
-	gettimeofday(tv, NULL);
+	t_game_data	*data;
 
-	while (!usleep(1))
+	data = malloc(sizeof(t_game_data));
+	if (!data)
+		return (1);
+	data->time_started = get_ms(NULL);
+	while (!usleep(1000))
 	{
-		gettimeofday(new_tv, NULL);
-		size_t	time = ((new_tv->tv_sec * 1000) + (new_tv->tv_usec / 1000));
-		time -= ((tv->tv_sec * 1000) + (tv->tv_usec / 1000));
-
-		printf("\033[1F\033[2K%li MS\n", time);
+		printf("\033[1F\033[2K\n%30li MS", get_ms(data));
 	}
+
+	free(data);
 }
