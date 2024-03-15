@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
+/*   time_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/15 13:58:03 by gachalif          #+#    #+#             */
-/*   Updated: 2024/03/15 13:58:03 by gachalif         ###   ########.fr       */
+/*   Created: 2024/03/15 13:47:06 by gachalif          #+#    #+#             */
+/*   Updated: 2024/03/15 13:47:06 by gachalif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOPHERS_H
-# define PHILOSOPHERS_H
+#include "philosophers.h"
 
-# include <sys/time.h>
-# include <pthread.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
+size_t	get_ms(t_game_data *data)
+{
+	struct timeval	timeval;
+	size_t			ms;
 
-# include "philosophers_philosophers.h"
-# include "philosophers_time.h"
-
-#endif
+	gettimeofday(&timeval, NULL);
+	ms = ((timeval.tv_sec * 1000) + (timeval.tv_usec / 1000));
+	if (data && data->time_started)
+	{
+		ms -= data->time_started;
+	}
+	return (ms);
+}

@@ -6,7 +6,7 @@
 #    By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/27 13:40:15 by gachalif          #+#    #+#              #
-#    Updated: 2024/03/06 12:19:34 by gachalif         ###   ########.fr        #
+#    Updated: 2024/03/15 13:57:16 by gachalif         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,9 @@ CFLAGS = -Wall -Wextra -Werror $(INCLUDES)
 SRCS_DIR = srcs
 SRCS =\
 		$(SRCS_DIR)/main.c \
-		$(SRCS_DIR)/philosophers.c \
-		$(SRCS_DIR)/time_utils.c \
+\
+		$(SRCS_DIR)/utils/philosophers_utils.c \
+		$(SRCS_DIR)/utils/time_utils.c \
 
 INCLUDES = -I includes \
 
