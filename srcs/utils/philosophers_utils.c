@@ -12,7 +12,7 @@
 
 #include "philosophers.h"
 
-t_philo	*philosopher_new(size_t id)
+t_philo	*philosopher_new(size_t id, t_game_data *data)
 {
 	t_philo			*new_philo;
 	pthread_mutex_t	new_fork;
@@ -21,22 +21,26 @@ t_philo	*philosopher_new(size_t id)
 	if (!new_philo)
 		return (NULL);
 	new_philo->id = id;
-	new_philo->my_fork = new_fork;
 	if (pthread_mutex_init(&new_fork, NULL) != 0)
 		return (free(new_philo), NULL);
+	new_philo->my_fork = &new_fork;
+	new_philo->data = data;
 	return (new_philo);
 }
 
-void	philo_live(void *arg)
+void	*philo_live(void *arg)
 {
-	
+	t_philo *philo;
+
+	philo = (t_philo *) arg;
+	return (0);
 }
 
-pthread_t	philosopher_init(t_philo *philo, t_game_data *data)
+pthread_t	*philosopher_init(t_philo *philo)
 {
-	pthread_t	new_thread;
 
-	if (pthread_create(&new_thread, NULL, &philo_live, philo) != 0);
+
+	if (pthread_create(&(philo->thread), NULL, philo_live, philo) != 0)
 		return (write(STDERR_FILENO, "Error starting thread", 22), NULL);
-	return (new_thread);
+	return (write(STDOUT_FILENO, "Thread started\n", 16), &(philo->thread));
 }

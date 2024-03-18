@@ -15,13 +15,6 @@
 
 # include "philosophers.h"
 
-typedef struct s_philo
-{
-	size_t			id;
-	pthread_mutex_t	my_fork;
-	pthread_mutex_t	next_fork;
-}	t_philo;
-
 typedef struct s_game_data
 {
 	pthread_t		*threads;
@@ -35,6 +28,17 @@ typedef struct s_game_data
 	pthread_mutex_t	death_mutex;
 }	t_game_data;
 
-t_philo	*philosopher_new(size_t id);
+typedef struct s_philo
+{
+	t_game_data		*data;
+	pthread_t		thread;
+	size_t			id;
+	size_t			last_meal;
+	pthread_mutex_t	*my_fork;
+	pthread_mutex_t	*next_fork;
+}	t_philo;
+
+t_philo		*philosopher_new(size_t id, t_game_data *data);
+pthread_t	*philosopher_init(t_philo *philo);
 
 #endif

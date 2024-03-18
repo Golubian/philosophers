@@ -6,7 +6,7 @@
 #    By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/27 13:40:15 by gachalif          #+#    #+#              #
-#    Updated: 2024/03/15 13:57:16 by gachalif         ###   ########.fr        #
+#    Updated: 2024/03/18 15:14:15 by gachalif         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS =\
 \
 		$(SRCS_DIR)/utils/philosophers_utils.c \
 		$(SRCS_DIR)/utils/time_utils.c \
+		$(SRCS_DIR)/utils/fork_utils.c \
 
 INCLUDES = -I includes \
 
@@ -53,7 +54,7 @@ all: $(NAME)
 			 
 $(NAME):	$(OBJS)
 			@ echo $(UP)$(CLR)🔥 $@ 
-			@ $(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
+			@ $(CC) $(CFLAGS) -lpthread $(INCLUDES) $(OBJS) -o $(NAME)
 			@ echo $(UP)$(CLR)✅ $(GREEN)$@ built!$(DEFAULT)
 
 debug:	CFLAGS += -g
