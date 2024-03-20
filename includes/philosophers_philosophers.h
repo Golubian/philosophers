@@ -25,7 +25,8 @@ typedef struct s_game_data
 	size_t			time_to_die;
 	size_t			number_of_times_each_philosopher_must_eat;
 	size_t			time_started;
-	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	*write_mutex;
+	char			death_flag;
 }	t_game_data;
 
 typedef struct s_philo

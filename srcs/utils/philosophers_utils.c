@@ -23,9 +23,25 @@ void	philosopher_free(t_philo *philo)
 	free(philo);
 }
 
-int	philo_survives(t_philo *philo)
+void	philo_write(char *str, t_philo *philo)
 {
+	pthread_mutex_t *write_mutex = philo->data->write_mutex;
+	size_t	ms;
+	size_t	id;
+
+	if (!philo)
+		return ;
+	id = philo->id;
+	ms = get_ms(philo->data);
+	pthread_mutex_lock(write_mutex);
+	if (philo->data->death_flag == 0)
+		printf("%lu	%lu %s", ms, id, str);
+	pthread_mutex_unlock(write_mutex);
 }
+
+// int	philo_survives(t_philo *philo)
+// {
+// }
 
 t_philo	*philosopher_new(size_t id, t_game_data *data)
 {
@@ -44,6 +60,7 @@ t_philo	*philosopher_new(size_t id, t_game_data *data)
 	if (pthread_mutex_init(philo->my_fork, NULL) != 0)
 		return (philosopher_free(philo), NULL);
 	philo->data = data;
+	philo->last_meal = 0;
 	return (philo);
 }
 
@@ -54,27 +71,33 @@ void	*philo_live(void *arg)
 
 	philo = (t_philo *) arg;
 	size_t count = 0;
+	while (get_ms(NULL) < philo->data->time_started)
+			;
 	while (count < philo->data->number_of_times_each_philosopher_must_eat)
 	{
-		printf("%8lu	%lu is thinking\n", get_ms(philo->data), philo->id);
+		philo_write("is thinking\n", philo);
 		if (philo->id % 2 == 1 && count == 0)
-			ft_sleep(philo->data->time_to_eat);
-		while (fork_try_get(philo->my_fork) != 0)
-			;
-		printf("%8lu	%lu has taken a fork\n", get_ms(philo->data), philo->id);
-		while (fork_try_get(philo->next_fork) != 0)
-			;
-		printf("%8lu	%lu has taken a fork\n", get_ms(philo->data), philo->id);
-		printf("%8lu	%lu is eating\n", get_ms(philo->data), philo->id);
-		ft_sleep(philo->data->time_to_eat);
-		philo->last_meal = get_ms(philo->data);
+			if (ft_sleep(philo->data->time_to_eat, philo))
+				return 0;
+		if (count == 0 && philo->id == philo->data->number_of_philosophers - 1 && philo->data->number_of_philosophers % 2 == 1)
+			if (ft_sleep(philo->data->time_to_eat, philo))
+				return (0);
+		if (fork_try_get(philo, philo->my_fork))
+			return 0;
+		philo_write("has taken a fork\n", philo);
+		if (fork_try_get(philo, philo->next_fork))
+			return 0;
+		philo_write("has taken a fork\n", philo);
+		philo_write("is eating\n", philo);
+		philo->last_meal = get_ms(philo->data + philo->data->time_to_eat);
+		ft_sleep(philo->data->time_to_eat, philo);
 		pthread_mutex_unlock(philo->my_fork);
 		pthread_mutex_unlock(philo->next_fork);
-		printf("%8lu	%lu is sleeping\n", get_ms(philo->data), philo->id);
-		ft_sleep(philo->data->time_to_sleep);
+		philo_write("is sleeping\n", philo);
+		if (ft_sleep(philo->data->time_to_sleep, philo))
+			return 0;
 		count++;
 	}
-
 	return (0);
 }
 
