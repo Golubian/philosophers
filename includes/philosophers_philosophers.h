@@ -40,5 +40,6 @@ typedef struct s_philo
 
 t_philo		*philosopher_new(size_t id, t_game_data *data);
 pthread_t	*philosopher_init(t_philo *philo);
+void		*philo_live(void *arg);
 
 #endif

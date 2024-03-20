@@ -6,7 +6,7 @@
 #    By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/27 13:40:15 by gachalif          #+#    #+#              #
-#    Updated: 2024/03/18 15:14:15 by gachalif         ###   ########.fr        #
+#    Updated: 2024/03/19 13:28:07 by gachalif         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCS =\
 		$(SRCS_DIR)/utils/time_utils.c \
 		$(SRCS_DIR)/utils/fork_utils.c \
 
-INCLUDES = -I includes \
+INCLUDES = -Iincludes \
 
 OBJS = $(SRCS:.c=.o)
 

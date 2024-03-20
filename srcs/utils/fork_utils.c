@@ -6,7 +6,7 @@
 /*   By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:16:42 by gachalif          #+#    #+#             */
-/*   Updated: 2024/03/18 15:02:47 by gachalif         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:47:13 by gachalif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	forks_init(t_philo **philos, int number_of_philosophers)
 	i = 0;
 	while (i < number_of_philosophers)
 	{
-		philos[i]->next_fork = philos[(i + 1) % number_of_philosophers] -> next_fork;
+		philos[i]->next_fork = philos[(i + 1) % number_of_philosophers]->my_fork;
 		i++;
 	}
 }

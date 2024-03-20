@@ -29,7 +29,7 @@ size_t	get_ms(t_game_data *data)
 void ft_sleep(size_t time_to_wait)
 {
 	size_t			ms_started;
-	
+
 	ms_started = get_ms(NULL);
 	while (get_ms(NULL) < ms_started + time_to_wait)
 		;
