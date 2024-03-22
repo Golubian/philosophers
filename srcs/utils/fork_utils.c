@@ -6,7 +6,7 @@
 /*   By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:16:42 by gachalif          #+#    #+#             */
-/*   Updated: 2024/03/20 16:46:46 by gachalif         ###   ########.fr       */
+/*   Updated: 2024/03/22 14:13:06 by gachalif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	forks_init(t_philo **philos, int number_of_philosophers)
 	while (i < number_of_philosophers)
 	{
 		if (number_of_philosophers == 1)
-			philos[i]->next_fork = NULL;
+			philos[i]->next_fork = 0;
 		else
 			philos[i]->next_fork = philos[(i + 1) % number_of_philosophers]->my_fork;
 		i++;
@@ -34,7 +34,7 @@ int	fork_try_get(t_philo *philo, pthread_mutex_t *fork)
 		return (pthread_mutex_lock(fork));
 	else
 	{
-		ft_sleep(philo->data->time_to_die * 10, philo);
+		ft_sleep(philo->data->time_to_die, philo);
 		return (1);
 	}
 }

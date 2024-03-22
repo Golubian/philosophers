@@ -20,6 +20,7 @@
 # include <stdio.h>
 
 # include "philosophers_philosophers.h"
+# include "philosophers_threads.h"
 # include "philosophers_forks.h"
 # include "philosophers_time.h"
 
