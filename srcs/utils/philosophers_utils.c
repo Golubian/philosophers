@@ -25,16 +25,16 @@ void	philosopher_free(t_philo *philo)
 
 void	philo_write(char *str, t_philo *philo)
 {
-	pthread_mutex_t *write_mutex = philo->data->write_mutex;
-	//size_t	us;
-	size_t	id;
+	pthread_mutex_t	*write_mutex;
+	size_t			id;
 
+	write_mutex = philo->data->write_mutex;
 	if (!philo)
 		return ;
 	id = philo->id;
-	//us = get_us(philo->data);
 	pthread_mutex_lock(write_mutex);
-	if (philo->data->death_flag == 0 && philo->data->philos_done_eating < philo->data->number_of_philosophers)
+	if (philo->data->death_flag == 0 && \
+philo->data->philos_done_eating < philo->data->number_of_philosophers)
 		printf("%lu	%lu %s", get_us(philo->data) / 1000, id, str);
 	pthread_mutex_unlock(write_mutex);
 }
@@ -62,27 +62,28 @@ t_philo	*philosopher_new(size_t id, t_game_data *data)
 
 void	*philo_live(void *arg)
 {
-	t_philo *philo;
+	t_philo	*philo;
+	size_t	count;
 
-
+	count = 0;
 	philo = (t_philo *) arg;
-	size_t count = 0;
 	while (get_us(NULL) < philo->data->time_started)
-			;
-	while (philo->data->philos_done_eating < philo->data->number_of_philosophers)
+		;
+	while (philo->data->philos_done_eating < \
+philo->data->number_of_philosophers)
 	{
 		philo_write("is thinking\n", philo);
 		if (philo->id % 2 == 1 && count == 0)
 			if (ft_sleep(philo->data->time_to_eat, philo))
-				return 0;
-		if (count == 0 && philo->id == philo->data->number_of_philosophers - 1 && philo->data->number_of_philosophers % 2 == 1)
+				return (0);
+		if (count == 0 && philo->id == philo->data->number_of_philosophers - 1 & philo->data->number_of_philosophers % 2 == 1)
 			if (ft_sleep(philo->data->time_to_eat, philo))
 				return (0);
 		if (fork_try_get(philo, philo->my_fork))
-			return 0;
+			return (0);
 		philo_write("has taken a fork\n", philo);
 		if (fork_try_get(philo, philo->next_fork))
-			return 0;
+			return (0);
 		philo_write("has taken a fork\n", philo);
 		philo_write("is eating\n", philo);
 		philo->last_meal = get_us(philo->data);
@@ -98,7 +99,7 @@ void	*philo_live(void *arg)
 		}
 		philo_write("is sleeping\n", philo);
 		if (ft_sleep(philo->data->time_to_sleep, philo))
-			return 0;
+			return (0);
 	}
 	return (0);
 }

@@ -16,6 +16,6 @@
 # include "philosophers.h"
 
 size_t	get_us(t_game_data *data);
-int ft_sleep(size_t time, t_philo *philo);
+int		ft_sleep(size_t time, t_philo *philo);
 
 #endif

@@ -26,7 +26,7 @@ size_t	get_us(t_game_data *data)
 	return (us);
 }
 
-int ft_sleep(size_t time_to_wait, t_philo *philo)
+int	ft_sleep(size_t time_to_wait, t_philo *philo)
 {
 	size_t			us_started;
 
@@ -39,7 +39,7 @@ int ft_sleep(size_t time_to_wait, t_philo *philo)
 		{
 			pthread_mutex_lock(philo->data->write_mutex);
 			if (philo->data->death_flag == 0)
-				printf("%lu	%lu has died\n", get_us(philo->data)/1000, philo->id);
+				printf("%lu	%lu has died\n", get_us(philo->data) / 1000, philo->id);
 			philo->data->death_flag = 1;
 			pthread_mutex_unlock(philo->data->write_mutex);
 			return (1);

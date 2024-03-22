@@ -13,7 +13,7 @@
 #include "philosophers.h"
 
 //Parse data from strings
-t_game_data	*data_init()
+t_game_data	*data_init(void)
 {
 	t_game_data	*data;
 
@@ -42,17 +42,14 @@ t_game_data	*data_init()
 int	main(void)
 {
 	t_game_data	*data;
-	t_philo	**philos;
+	t_philo		**philos;
 
 	data = data_init();
 	philos = philos_thread_create(data);
 	forks_init(philos, data->number_of_philosophers);
 	philos_thread_init(philos, data);
 	philos_thread_await(philos, data);
-
-	// fork_cleanup();
-	// philo_cleanup();
-	// data_cleanup();
 	free(philos);
 	free(data);
 }
+// add cleanup

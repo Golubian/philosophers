@@ -6,7 +6,7 @@
 /*   By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:57:07 by gachalif          #+#    #+#             */
-/*   Updated: 2024/03/22 14:07:14 by gachalif         ###   ########.fr       */
+/*   Updated: 2024/03/22 14:24:27 by gachalif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_philo	**philos_thread_create(t_game_data *data)
 {
-	t_philo **philos;
+	t_philo	**philos;
 	size_t	i;
 
 	philos = malloc(sizeof(t_philo *) * (data->number_of_philosophers + 1));
@@ -28,7 +28,8 @@ t_philo	**philos_thread_create(t_game_data *data)
 	}
 	return (philos);
 }
-int philos_thread_init(t_philo **philos, t_game_data *data)
+
+int	philos_thread_init(t_philo **philos, t_game_data *data)
 {
 	size_t	i;
 
@@ -40,7 +41,8 @@ int philos_thread_init(t_philo **philos, t_game_data *data)
 	}
 	return (0);
 }
-int philos_thread_await(t_philo **philos, t_game_data *data)
+
+int	philos_thread_await(t_philo **philos, t_game_data *data)
 {
 	size_t	i;
 
