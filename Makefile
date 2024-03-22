@@ -6,7 +6,7 @@
 #    By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/27 13:40:15 by gachalif          #+#    #+#              #
-#    Updated: 2024/03/22 14:02:50 by gachalif         ###   ########.fr        #
+#    Updated: 2024/03/22 15:59:17 by gachalif         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS =\
 		$(SRCS_DIR)/utils/philosophers_threads.c \
 		$(SRCS_DIR)/utils/time_utils.c \
 		$(SRCS_DIR)/utils/fork_utils.c \
+		$(SRCS_DIR)/utils/cleanup_utils.c \
 
 INCLUDES = -Iincludes \
 

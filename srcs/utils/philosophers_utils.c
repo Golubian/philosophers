@@ -50,9 +50,6 @@ t_philo	*philosopher_new(size_t id, t_game_data *data)
 	philo->my_fork = malloc(sizeof(pthread_mutex_t));
 	if (!philo->my_fork)
 		return (philosopher_free(philo), NULL);
-	philo->next_fork = malloc(sizeof(pthread_mutex_t));
-	if (!philo->next_fork)
-		return (philosopher_free(philo), NULL);
 	if (pthread_mutex_init(philo->my_fork, NULL) != 0)
 		return (philosopher_free(philo), NULL);
 	philo->data = data;

@@ -27,8 +27,8 @@ t_game_data	*data_init(void)
 	if (!data->done_eating_mutex)
 		return (free(data->write_mutex), free(data), NULL);
 	data->time_started = get_us(NULL) + 1000000;
-	data->number_of_philosophers = 6;
-	data->number_of_times_each_philosopher_must_eat = 2;
+	data->number_of_philosophers = 1;
+	data->number_of_times_each_philosopher_must_eat = 1;
 	data->time_to_eat = 200 * 1000;
 	data->time_to_sleep = 200 * 1000;
 	data->time_to_die = 800 * 1000;
@@ -49,7 +49,6 @@ int	main(void)
 	forks_init(philos, data->number_of_philosophers);
 	philos_thread_init(philos, data);
 	philos_thread_await(philos, data);
-	free(philos);
-	free(data);
+	philos_memory_mutex_cleanup(data, philos);
 }
 // add cleanup
