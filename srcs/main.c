@@ -13,7 +13,7 @@
 #include "philosophers.h"
 
 //Parse data from strings
-t_game_data	*data_init(void)
+t_game_data	*data_init(t_parsed_data parsed_data)
 {
 	t_game_data	*data;
 
@@ -27,11 +27,12 @@ t_game_data	*data_init(void)
 	if (!data->done_eating_mutex)
 		return (free(data->write_mutex), free(data), NULL);
 	data->time_started = get_us(NULL) + 1000000;
-	data->number_of_philosophers = 1;
-	data->number_of_times_each_philosopher_must_eat = 1;
-	data->time_to_eat = 200 * 1000;
-	data->time_to_sleep = 200 * 1000;
-	data->time_to_die = 800 * 1000;
+	data->number_of_philosophers = parsed_data.number_of_philosophers;
+	data->number_of_times_each_philosopher_must_eat = \
+parsed_data.number_of_times_each_philosopher_must_eat;
+	data->time_to_eat = parsed_data.time_to_eat * 1000;
+	data->time_to_sleep = parsed_data.time_to_sleep * 1000;
+	data->time_to_die = parsed_data.time_to_die * 1000;
 	data->death_flag = 0;
 	data->philos_done_eating = 0;
 	pthread_mutex_init(data->write_mutex, NULL);
@@ -39,12 +40,18 @@ t_game_data	*data_init(void)
 	return (data);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	t_game_data	*data;
-	t_philo		**philos;
+	t_game_data		*data;
+	t_philo			**philos;
+	t_parsed_data	parsed;
 
-	data = data_init();
+	if (argc <= 4 || parse_argv(argv).parsed_data_is_valid == 0)
+		return (printf("Not enough arguments or arguments invalid.\n\nUsage:\n./philo number_of_philosophers\
+ time_to_die time_to_eat time_to_sleep \
+[number_of_times_each_philosopher_must_eat]"), 1);
+	parsed = parse_argv(argv);
+	data = data_init(parsed);
 	philos = philos_thread_create(data);
 	forks_init(philos, data->number_of_philosophers);
 	philos_thread_init(philos, data);

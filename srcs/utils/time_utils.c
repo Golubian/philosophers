@@ -33,13 +33,16 @@ int	ft_sleep(size_t time_to_wait, t_philo *philo)
 	us_started = get_us(NULL);
 	while (get_us(NULL) < us_started + time_to_wait)
 	{
-		if (philo->data->death_flag == 1 || philo->data->philos_done_eating == philo->data->number_of_philosophers)
+		if (philo->data->death_flag == 1 || \
+		philo->data->philos_done_eating == philo->data->number_of_philosophers)
 			return (1);
-		else if (get_us(philo->data) > ((philo->last_meal) + philo->data->time_to_die))
+		else if (get_us(philo->data) > \
+		((philo->last_meal) + philo->data->time_to_die))
 		{
 			pthread_mutex_lock(philo->data->write_mutex);
 			if (philo->data->death_flag == 0)
-				printf("%lu	%lu has died\n", get_us(philo->data) / 1000, philo->id);
+				printf("%lu	%lu has died\n", \
+			get_us(philo->data) / 1000, philo->id);
 			philo->data->death_flag = 1;
 			pthread_mutex_unlock(philo->data->write_mutex);
 			return (1);
