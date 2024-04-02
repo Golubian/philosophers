@@ -20,6 +20,10 @@ void	philosopher_free(t_philo *philo)
 		free(philo->my_fork);
 	if (philo->next_fork)
 		free(philo->next_fork);
+	if (philo->fork_busy)
+		free(philo->fork_busy);
+	if (philo->next_fork_busy)
+		free(philo->next_fork_busy);
 	free(philo);
 }
 
@@ -50,8 +54,12 @@ t_philo	*philosopher_new(size_t id, t_game_data *data)
 	philo->my_fork = malloc(sizeof(pthread_mutex_t));
 	if (!philo->my_fork)
 		return (philosopher_free(philo), NULL);
+	philo->fork_busy = malloc(sizeof(char));
+	if (!philo->fork_busy)
+		return (philosopher_free(philo), NULL);
 	if (pthread_mutex_init(philo->my_fork, NULL) != 0)
 		return (philosopher_free(philo), NULL);
+	*(philo->fork_busy) = 0;
 	philo->data = data;
 	philo->last_meal = 0;
 	return (philo);
@@ -73,18 +81,19 @@ philo->data->number_of_philosophers)
 		if (philo->id % 2 == 1 && count == 0)
 			if (ft_sleep(philo->data->time_to_eat, philo))
 				return (0);
-		if (count == 0 && philo->id == philo->data->number_of_philosophers - 1 & philo->data->number_of_philosophers % 2 == 1)
+		if (count == 0 && philo->id == philo->data->number_of_philosophers - 1 && \
+philo->data->number_of_philosophers % 2 == 1)
 			if (ft_sleep(philo->data->time_to_eat, philo))
 				return (0);
-		if (fork_try_get(philo, philo->my_fork))
+		if (forks_try_get(philo))
 			return (0);
 		philo_write("has taken a fork\n", philo);
-		if (fork_try_get(philo, philo->next_fork))
-			return (0);
 		philo_write("has taken a fork\n", philo);
 		philo_write("is eating\n", philo);
 		philo->last_meal = get_us(philo->data);
 		ft_sleep(philo->data->time_to_eat, philo);
+		*(philo->fork_busy) = 0;
+		*(philo->next_fork_busy) = 0;
 		pthread_mutex_unlock(philo->my_fork);
 		pthread_mutex_unlock(philo->next_fork);
 		count++;

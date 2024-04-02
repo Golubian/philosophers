@@ -6,7 +6,7 @@
 /*   By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 15:50:52 by gachalif          #+#    #+#             */
-/*   Updated: 2024/03/22 16:01:01 by gachalif         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:03:57 by gachalif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	cleanup_philos(t_game_data *data, t_philo **philos)
 	{
 		pthread_mutex_destroy(philos[i]->my_fork);
 		free(philos[i]->my_fork);
+		free(philos[i]->fork_busy);
 		free(philos[i]);
 		i++;
 	}

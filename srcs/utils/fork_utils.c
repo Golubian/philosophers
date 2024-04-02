@@ -6,7 +6,7 @@
 /*   By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:16:42 by gachalif          #+#    #+#             */
-/*   Updated: 2024/03/22 14:23:30 by gachalif         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:08:51 by gachalif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,42 @@ void	forks_init(t_philo **philos, int number_of_philosophers)
 	while (i < number_of_philosophers)
 	{
 		if (number_of_philosophers == 1)
+		{
 			philos[i]->next_fork = NULL;
+			philos[i]->next_fork_busy = NULL;
+		}
 		else
+		{
 			philos[i]->next_fork = philos[(i + 1) % \
 number_of_philosophers]->my_fork;
+			philos[i]->next_fork_busy = philos[(i + 1) % \
+number_of_philosophers]->fork_busy;
+		}
 		i++;
 	}
 }
 
-int	fork_try_get(t_philo *philo, pthread_mutex_t *fork)
+int	forks_try_get(t_philo *philo)
 {
-	if (fork)
-		return (pthread_mutex_lock(fork));
-	else
+	pthread_mutex_t	*fork;
+	pthread_mutex_t	*next_fork;
+
+	if (!philo->next_fork_busy)
+		return (ft_sleep(philo->data->time_to_die, philo));
+	while (*(philo->fork_busy) != 0 && *(philo->next_fork_busy) != 0)
 	{
-		ft_sleep(philo->data->time_to_die, philo);
-		return (1);
+		if (ft_sleep(1, philo) == 1)
+			return (1);
 	}
+	fork = philo->my_fork;
+	next_fork = philo->next_fork;
+	if (fork && next_fork)
+	{
+		if (pthread_mutex_lock(fork) || pthread_mutex_lock(next_fork))
+			return (1);
+		*(philo->fork_busy) = 1;
+		*(philo->next_fork_busy) = 1;
+		return (0);
+	}
+	return (1);
 }

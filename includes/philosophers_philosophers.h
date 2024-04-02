@@ -38,6 +38,8 @@ typedef struct s_philo
 	size_t			id;
 	size_t			last_meal;
 	pthread_mutex_t	*my_fork;
+	char			*fork_busy;
+	char			*next_fork_busy;
 	pthread_mutex_t	*next_fork;
 }	t_philo;
 
