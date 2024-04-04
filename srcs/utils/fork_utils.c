@@ -6,7 +6,7 @@
 /*   By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:16:42 by gachalif          #+#    #+#             */
-/*   Updated: 2024/04/02 17:08:51 by gachalif         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:39:35 by gachalif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,16 @@ int	forks_try_get(t_philo *philo)
 
 	if (!philo->next_fork_busy)
 		return (ft_sleep(philo->data->time_to_die, philo));
-	while (*(philo->fork_busy) != 0 && *(philo->next_fork_busy) != 0)
+	while (*(philo->fork_busy) != 0 && *(philo->next_fork_busy) != 0 && \
+	(philo->data->philos_done_eating < philo->data->number_of_philosophers))
 	{
 		if (ft_sleep(1, philo) == 1)
 			return (1);
 	}
 	fork = philo->my_fork;
 	next_fork = philo->next_fork;
-	if (fork && next_fork)
+	if (fork && next_fork && (philo->data->philos_done_eating < \
+philo->data->number_of_philosophers))
 	{
 		if (pthread_mutex_lock(fork) || pthread_mutex_lock(next_fork))
 			return (1);

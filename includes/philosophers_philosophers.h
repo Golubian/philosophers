@@ -43,8 +43,17 @@ typedef struct s_philo
 	pthread_mutex_t	*next_fork;
 }	t_philo;
 
+//HANDLERS
 t_philo		*philosopher_new(size_t id, t_game_data *data);
 pthread_t	*philosopher_init(t_philo *philo);
 void		*philo_live(void *arg);
+
+//UTILS
+void		philo_write(char *str, t_philo *philo);
+
+//ACTIONS
+int			philo_wait_start(t_philo *philo, size_t count);
+int			philo_eat(t_philo *philo);
+int			philo_check_if_done_eating(t_philo *philo, size_t count);
 
 #endif

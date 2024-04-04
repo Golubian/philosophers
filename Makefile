@@ -6,7 +6,7 @@
 #    By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/27 13:40:15 by gachalif          #+#    #+#              #
-#    Updated: 2024/03/25 13:55:45 by gachalif         ###   ########.fr        #
+#    Updated: 2024/04/04 14:26:23 by gachalif         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS =\
 \
 		$(SRCS_DIR)/utils/philosophers_utils.c \
 		$(SRCS_DIR)/utils/philosophers_threads.c \
+		$(SRCS_DIR)/utils/philosophers_actions.c \
 		$(SRCS_DIR)/utils/time_utils.c \
 		$(SRCS_DIR)/utils/fork_utils.c \
 		$(SRCS_DIR)/utils/cleanup_utils.c \
