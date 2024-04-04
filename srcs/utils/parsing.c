@@ -6,7 +6,7 @@
 /*   By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:56:37 by gachalif          #+#    #+#             */
-/*   Updated: 2024/03/25 14:21:36 by gachalif         ###   ########.fr       */
+/*   Updated: 2024/04/04 15:01:23 by gachalif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ t_parsed_data	parse_argv(char **argv)
 	i = 1;
 	while (argv[i])
 	{
-		if (is_valid_int(argv[i]) < 0)
+		if (is_valid_int(argv[i]) < 0 || (i == 5 && is_valid_int(argv[i]) == 0) \
+	|| (i > 1 && i < 5 && is_valid_int(argv[i]) < 60))
 			return (data);
 		i++;
 	}

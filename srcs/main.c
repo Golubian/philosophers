@@ -51,6 +51,10 @@ int	main(int argc, char **argv)
  time_to_die time_to_eat time_to_sleep \
 [number_of_times_each_philosopher_must_eat]"), 1);
 	parsed = parse_argv(argv);
+	if (parsed.number_of_times_each_philosopher_must_eat == 0)
+		return (printf("Not enough arguments or arguments invalid.\n\nUsage:\n./philo number_of_philosophers\
+ time_to_die time_to_eat time_to_sleep \
+[number_of_times_each_philosopher_must_eat]"), 1);
 	data = data_init(parsed);
 	philos = philos_thread_create(data);
 	forks_init(philos, data->number_of_philosophers);
@@ -58,4 +62,3 @@ int	main(int argc, char **argv)
 	philos_thread_await(philos, data);
 	philos_memory_mutex_cleanup(data, philos);
 }
-// add cleanup
