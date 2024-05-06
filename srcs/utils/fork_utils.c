@@ -6,7 +6,7 @@
 /*   By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:16:42 by gachalif          #+#    #+#             */
-/*   Updated: 2024/04/04 14:39:35 by gachalif         ###   ########.fr       */
+/*   Updated: 2024/05/06 15:09:51 by gachalif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,44 +21,46 @@ void	forks_init(t_philo **philos, int number_of_philosophers)
 	while (i < number_of_philosophers)
 	{
 		if (number_of_philosophers == 1)
-		{
 			philos[i]->next_fork = NULL;
-			philos[i]->next_fork_busy = NULL;
-		}
 		else
 		{
 			philos[i]->next_fork = philos[(i + 1) % \
 number_of_philosophers]->my_fork;
-			philos[i]->next_fork_busy = philos[(i + 1) % \
-number_of_philosophers]->fork_busy;
 		}
 		i++;
 	}
 }
 
+int	check_forks_busy(t_philo *philo)
+{
+	int	busy;
+
+	busy = 0;
+	pthread_mutex_lock(&(philo->my_fork->fork_mutex));
+	if ((philo->my_fork->fork_busy) == 1)
+		busy = 1;
+	pthread_mutex_unlock(&(philo->my_fork->fork_mutex));
+	pthread_mutex_lock(&(philo->next_fork->fork_mutex));
+	if ((philo->next_fork->fork_busy) == 1)
+		busy = 1;
+	pthread_mutex_lock(&(philo->next_fork->fork_mutex));
+	return (busy);
+}
+
 int	forks_try_get(t_philo *philo)
 {
-	pthread_mutex_t	*fork;
-	pthread_mutex_t	*next_fork;
-
-	if (!philo->next_fork_busy)
+	if (philo->next_fork == NULL)
 		return (ft_sleep(philo->data->time_to_die, philo));
-	while (*(philo->fork_busy) != 0 && *(philo->next_fork_busy) != 0 && \
-	(philo->data->philos_done_eating < philo->data->number_of_philosophers))
+	while (check_forks_busy(philo) == 1)
 	{
 		if (ft_sleep(1, philo) == 1)
 			return (1);
 	}
-	fork = philo->my_fork;
-	next_fork = philo->next_fork;
-	if (fork && next_fork && (philo->data->philos_done_eating < \
-philo->data->number_of_philosophers))
-	{
-		if (pthread_mutex_lock(fork) || pthread_mutex_lock(next_fork))
-			return (1);
-		*(philo->fork_busy) = 1;
-		*(philo->next_fork_busy) = 1;
-		return (0);
-	}
-	return (1);
+	pthread_mutex_lock(&(philo->my_fork->fork_mutex));
+	(philo->my_fork->fork_busy) = 1;
+	pthread_mutex_lock(&(philo->my_fork->fork_mutex));
+	pthread_mutex_lock(&(philo->next_fork->fork_mutex));
+	(philo->next_fork->fork_busy) = 1;
+	pthread_mutex_unlock(&(philo->next_fork->fork_mutex));
+	return (0);
 }

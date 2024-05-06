@@ -20,10 +20,6 @@ void	philosopher_free(t_philo *philo)
 		free(philo->my_fork);
 	if (philo->next_fork)
 		free(philo->next_fork);
-	if (philo->fork_busy)
-		free(philo->fork_busy);
-	if (philo->next_fork_busy)
-		free(philo->next_fork_busy);
 	free(philo);
 }
 
@@ -32,7 +28,7 @@ void	philo_write(char *str, t_philo *philo)
 	pthread_mutex_t	*write_mutex;
 	size_t			id;
 
-	write_mutex = philo->data->write_mutex;
+	write_mutex = &(philo->data->write_mutex);
 	if (!philo)
 		return ;
 	id = philo->id;
@@ -53,15 +49,9 @@ t_philo	*philosopher_new(size_t id, t_game_data *data)
 	if (!philo)
 		return (NULL);
 	philo->id = id;
-	philo->my_fork = malloc(sizeof(pthread_mutex_t));
+	philo->my_fork = malloc(sizeof(t_fork));
 	if (!philo->my_fork)
 		return (philosopher_free(philo), NULL);
-	philo->fork_busy = malloc(sizeof(char));
-	if (!philo->fork_busy)
-		return (philosopher_free(philo), NULL);
-	if (pthread_mutex_init(philo->my_fork, NULL) != 0)
-		return (philosopher_free(philo), NULL);
-	*(philo->fork_busy) = 0;
 	philo->data = data;
 	philo->last_meal = 0;
 	return (philo);

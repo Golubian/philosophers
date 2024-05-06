@@ -20,12 +20,6 @@ t_game_data	*data_init(t_parsed_data parsed_data)
 	data = malloc(sizeof(t_game_data));
 	if (!data)
 		return (0);
-	data->write_mutex = malloc(sizeof(pthread_mutex_t));
-	if (!data->write_mutex)
-		return (free(data), NULL);
-	data->done_eating_mutex = malloc(sizeof(pthread_mutex_t));
-	if (!data->done_eating_mutex)
-		return (free(data->write_mutex), free(data), NULL);
 	data->time_started = get_us(NULL) + 1000000;
 	data->number_of_philosophers = parsed_data.number_of_philosophers;
 	data->number_of_times_each_philosopher_must_eat = \
@@ -35,8 +29,9 @@ parsed_data.number_of_times_each_philosopher_must_eat;
 	data->time_to_die = parsed_data.time_to_die * 1000;
 	data->death_flag = 0;
 	data->philos_done_eating = 0;
-	pthread_mutex_init(data->write_mutex, NULL);
-	pthread_mutex_init(data->done_eating_mutex, NULL);
+	pthread_mutex_init(&(data->write_mutex), NULL);
+	pthread_mutex_init(&(data->done_eating_mutex), NULL);
+	pthread_mutex_init(&(data->death_mutex), NULL);
 	return (data);
 }
 

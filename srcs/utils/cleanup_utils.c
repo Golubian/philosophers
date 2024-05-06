@@ -6,7 +6,7 @@
 /*   By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 15:50:52 by gachalif          #+#    #+#             */
-/*   Updated: 2024/04/02 17:03:57 by gachalif         ###   ########.fr       */
+/*   Updated: 2024/05/06 15:12:27 by gachalif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ static void	cleanup_philos(t_game_data *data, t_philo **philos)
 	i = 0;
 	while (i < data->number_of_philosophers)
 	{
-		pthread_mutex_destroy(philos[i]->my_fork);
+		pthread_mutex_destroy(&(philos[i]->my_fork->fork_mutex));
 		free(philos[i]->my_fork);
-		free(philos[i]->fork_busy);
 		free(philos[i]);
 		i++;
 	}
@@ -30,10 +29,8 @@ static void	cleanup_philos(t_game_data *data, t_philo **philos)
 
 static void	cleanup_data(t_game_data *data)
 {
-	pthread_mutex_destroy(data->write_mutex);
-	pthread_mutex_destroy(data->done_eating_mutex);
-	free(data->write_mutex);
-	free(data->done_eating_mutex);
+	pthread_mutex_destroy(&(data->write_mutex));
+	pthread_mutex_destroy(&(data->done_eating_mutex));
 	free(data);
 }
 

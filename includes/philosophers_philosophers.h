@@ -26,10 +26,17 @@ typedef struct s_game_data
 	size_t			number_of_times_each_philosopher_must_eat;
 	size_t			time_started;
 	size_t			philos_done_eating;
-	pthread_mutex_t	*done_eating_mutex;
-	pthread_mutex_t	*write_mutex;
+	pthread_mutex_t	done_eating_mutex;
+	pthread_mutex_t	write_mutex;
 	char			death_flag;
+	pthread_mutex_t	death_mutex;
 }	t_game_data;
+
+typedef struct s_fork
+{
+	int				fork_busy;
+	pthread_mutex_t	fork_mutex;
+}	t_fork;
 
 typedef struct s_philo
 {
@@ -37,10 +44,8 @@ typedef struct s_philo
 	pthread_t		thread;
 	size_t			id;
 	size_t			last_meal;
-	pthread_mutex_t	*my_fork;
-	char			*fork_busy;
-	char			*next_fork_busy;
-	pthread_mutex_t	*next_fork;
+	t_fork			*my_fork;
+	t_fork			*next_fork;
 }	t_philo;
 
 //HANDLERS
