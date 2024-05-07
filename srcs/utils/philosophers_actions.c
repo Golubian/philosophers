@@ -6,7 +6,7 @@
 /*   By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:02:33 by gachalif          #+#    #+#             */
-/*   Updated: 2024/05/06 15:15:08 by gachalif         ###   ########.fr       */
+/*   Updated: 2024/05/07 14:25:46 by gachalif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,17 @@ philo->data->number_of_philosophers % 2 == 1)
 
 int	philo_check_if_done_eating(t_philo *philo, size_t count)
 {
+	int	philos_done;
+
 	if (count == philo->data->number_of_times_each_philosopher_must_eat)
 	{
 		pthread_mutex_lock(&(philo->data->done_eating_mutex));
 		philo->data->philos_done_eating += 1;
 		pthread_mutex_unlock(&(philo->data->done_eating_mutex));
 	}
-	return (philo->data->number_of_philosophers == \
-philo->data->philos_done_eating);
+	pthread_mutex_lock(&(philo->data->done_eating_mutex));
+	philos_done = philo->data->number_of_philosophers == \
+	philo->data->philos_done_eating;
+	pthread_mutex_unlock(&(philo->data->done_eating_mutex));
+	return (philos_done);
 }

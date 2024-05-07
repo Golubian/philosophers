@@ -6,14 +6,14 @@
 #    By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/27 13:40:15 by gachalif          #+#    #+#              #
-#    Updated: 2024/05/06 15:20:20 by gachalif         ###   ########.fr        #
+#    Updated: 2024/05/07 14:45:51 by gachalif         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror $(INCLUDES) -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror $(INCLUDES)
 
 SRCS_DIR = srcs
 SRCS =\

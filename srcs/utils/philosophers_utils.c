@@ -27,16 +27,18 @@ void	philo_write(char *str, t_philo *philo)
 {
 	pthread_mutex_t	*write_mutex;
 	size_t			id;
+	size_t			philos_done;
 
+	philos_done = get_philos_done_eating(philo->data);
 	write_mutex = &(philo->data->write_mutex);
 	if (!philo)
 		return ;
 	id = philo->id;
-	if (philo->data->philos_done_eating >= philo->data->number_of_philosophers)
+	if (philos_done >= philo->data->number_of_philosophers)
 		return ;
 	pthread_mutex_lock(write_mutex);
 	if (philo->data->death_flag == 0 && \
-philo->data->philos_done_eating < philo->data->number_of_philosophers)
+philos_done < philo->data->number_of_philosophers)
 		printf("%lu	%lu %s", get_us(philo->data) / 1000, id, str);
 	pthread_mutex_unlock(write_mutex);
 }
@@ -52,6 +54,8 @@ t_philo	*philosopher_new(size_t id, t_game_data *data)
 	philo->my_fork = malloc(sizeof(t_fork));
 	if (!philo->my_fork)
 		return (philosopher_free(philo), NULL);
+	philo->my_fork->fork_busy = 0;
+	pthread_mutex_init(&(philo->my_fork->fork_mutex), NULL);
 	philo->data = data;
 	philo->last_meal = 0;
 	return (philo);
@@ -66,7 +70,7 @@ void	*philo_live(void *arg)
 	philo = (t_philo *) arg;
 	while (get_us(NULL) < philo->data->time_started)
 		;
-	while (philo->data->philos_done_eating < \
+	while (get_philos_done_eating(philo->data) < \
 philo->data->number_of_philosophers)
 	{
 		philo_write("is thinking\n", philo);
