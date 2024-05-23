@@ -6,7 +6,7 @@
 /*   By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:16:42 by gachalif          #+#    #+#             */
-/*   Updated: 2024/05/07 14:22:27 by gachalif         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:18:32 by gachalif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	forks_try_get(t_philo *philo)
 		return (ft_sleep(philo->data->time_to_die, philo));
 	while (check_forks_busy(philo) == 1)
 	{
-		if (ft_sleep(1, philo) == 1)
+		if (ft_sleep(1, philo))
 			return (1);
 	}
 	pthread_mutex_lock(&(philo->my_fork->fork_mutex));

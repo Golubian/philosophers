@@ -6,7 +6,7 @@
 /*   By: gachalif <gachalif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:02:33 by gachalif          #+#    #+#             */
-/*   Updated: 2024/05/07 14:25:46 by gachalif         ###   ########.fr       */
+/*   Updated: 2024/05/23 16:27:20 by gachalif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ int	philo_eat(t_philo *philo)
 
 int	philo_wait_start(t_philo *philo, size_t count)
 {
-	if (count != 0)
-		return (0);
-	if (philo->id % 2 == 1)
+	if ((philo->id % 2 == 1 || (philo->id == 0 && \
+philo->data->number_of_philosophers % 2 == 1)) && count == 0)
 		if (ft_sleep(philo->data->time_to_eat, philo))
 			return (1);
-	if (philo->id == 0 && \
-philo->data->number_of_philosophers % 2 == 1)
-		if (ft_sleep(philo->data->time_to_eat * 2, philo))
+	if (philo->data->number_of_philosophers % 2 == 1 && count != 0)
+	{
+		if (ft_sleep(philo->data->time_to_eat, philo))
 			return (1);
+	}
 	return (0);
 }
 
